@@ -39,14 +39,14 @@ class RouteServiceProvider extends ServiceProvider
         });
     }
 
-    public function configureRateLimiting()
-    {
-        RateLimiter::for('global', function (Request $request) {
-            return Limit::perMinute(500)
-                ->by($request->user()?->id ?: $request->ip())         // Лимит привязывается к пользователю или к ip
-                ->response(function (Request $request, array $headers) {   // В случае превышения лимита отдаем response
-                    return response('Take it easy', Response::HTTP_TOO_MANY_REQUESTS, $headers); // 429 код
-                });
-        });
-    }
+//    public function configureRateLimiting()
+//    {
+//        RateLimiter::for('global', function (Request $request) {
+//            return Limit::perMinute(500000)
+//                ->by($request->user()?->id ?: $request->ip())         // Лимит привязывается к пользователю или к ip
+//                ->response(function (Request $request, array $headers) {   // В случае превышения лимита отдаем response
+//                    return response('Take it easy', Response::HTTP_TOO_MANY_REQUESTS, $headers); // 429 код
+//                });
+//        });
+//    }
 }

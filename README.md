@@ -4,6 +4,4 @@
  - MySQL: 8.0
 
 # Установка
- - php artisan migrate
- - php artisan storage:link
- - php artisan config:cache
+ - php artisan shop:install
