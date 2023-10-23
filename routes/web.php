@@ -1,5 +1,6 @@
 <?php
 
+use App\Logging\Telegram\Exceptions\TelegramBotApiException;
 use App\Models\Product;
 use Illuminate\Support\Facades\Route;
 
@@ -20,6 +21,6 @@ Route::get('/', function () {
 //    $product = Product::query()->select(['id'])->first();
 //
 //    $product->name;
-
+    throw new TelegramBotApiException(123);
     return view('welcome');
 });

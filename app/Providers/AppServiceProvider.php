@@ -13,14 +13,6 @@ use Illuminate\Database\Events\QueryExecuted;
 class AppServiceProvider extends ServiceProvider
 {
     /**
-     * Register any application services.
-     */
-    public function register(): void
-    {
-        //
-    }
-
-    /**
      * Bootstrap any application services.
      */
     public function boot(): void
@@ -37,27 +29,26 @@ class AppServiceProvider extends ServiceProvider
         if (app()->isProduction()) {
 
             // Логирование коннекта, от начала и до конца
-            DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection, QueryExecuted $event) {
-                logger()
-                    ->channel('telegram')
-                    ->debug('whenQueryingForLongerThan:' . $connection->query()->toSql());
-            });
+            //DB::whenQueryingForLongerThan(CarbonInterval::seconds(5), function (Connection $connection, QueryExecuted $event) {
+            //    logger()
+            //        ->channel('telegram')
+            //        ->debug('whenQueryingForLongerThan:' . $connection->query()->toSql());
+            //});
 
             // Прослушка всех запросов с бд
             DB::listen(static function ($query) {
                 // Время выполнения каждого запроса
                 // dump($query->time);
                 // dump($query->sql);
-                if ($query->time > 200) {
+                if ($query->time > 1000) {
                     logger()
                         ->channel('telegram')
-                        ->debug('whenQueryingForLongerThan:' . $query->sql, $query->bindings);
+                        ->debug('Query longer than 1s:' . $query->sql, $query->bindings);
                 }
 
             });
 
-            $kernel = app(Kernel::class);
-            $kernel->whenRequestLifecycleIsLongerThan(
+            app(Kernel::class)->whenRequestLifecycleIsLongerThan(
                 CarbonInterval::seconds(4),
                 function () {
                     logger()

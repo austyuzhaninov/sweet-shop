@@ -2,8 +2,9 @@
 
 namespace App\Services\Telegram;
 
-use Illuminate\Http\Client\ConnectionException;
+use App\Logging\Telegram\Exceptions\TelegramBotApiException;
 use Illuminate\Support\Facades\Http;
+use Throwable;
 
 class TelegramBotApi
 {
@@ -25,8 +26,8 @@ class TelegramBotApi
 
             return $result->getStatusCode() == 200;
 
-        } catch (ConnectionException $exception) {
-
+        } catch (Throwable $exception) {
+            throw new TelegramBotApiException($exception);
         }
     }
 }
