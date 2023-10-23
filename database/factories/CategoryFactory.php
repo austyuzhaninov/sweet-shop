@@ -18,6 +18,11 @@ class CategoryFactory extends Factory
     {
         return [
             'title' => ucfirst($this->faker->words(2, true)),
+            'thumbnail' => $this->faker->file(
+                base_path('/tests/Fixtures/images/products'),
+                storage_path('/app/public/images/products'),
+                false
+            ),
         ];
     }
 }
