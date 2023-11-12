@@ -15,6 +15,7 @@ use Illuminate\Foundation\Application;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Password;
 use Laravel\Socialite\Facades\Socialite;
 use Psy\Util\Str;
@@ -28,6 +29,9 @@ class AuthController extends Controller
 
     public function signIn(SignInFormRequest $request): RedirectResponse
     {
+
+//        Notification::route('sms')->route('mail')->notify();
+
         //TODO: 3rd lesson rate limit
         if (!auth()->attempt($request->validated())) {
             return back()->withErrors([
